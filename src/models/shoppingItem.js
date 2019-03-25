@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const itemSchema = new mongoose.Schema({
   creator: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Creator',
+    ref: 'User',
     required: true
   },
   name: {

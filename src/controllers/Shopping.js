@@ -6,6 +6,10 @@ const Item = require('../models/shoppingItem')
 
 router.get('/', VerifyToken, (req, res, next) => {
   Item.find({})
+    .populate({
+      path: 'creator',
+      model: 'User'
+    })
     .then(
       response => {
         res.status(200).send(response)
@@ -65,5 +69,12 @@ router.patch('/item/:id', VerifyToken, (req, res, next) => {
 })
 
 // Delete Item
-router.delete('/item/:id/delete', VerifyToken)
+router.delete('/item/:id/delete', VerifyToken, (req, res, next) => {
+  const { id } = req.params
+  Item.findByIdAndDelete(id)
+    .then(() => {
+      res.status(200).send({ message: 'Object Deleted' })
+    })
+    .catch(err => console.log(err))
+})
 module.exports = router
